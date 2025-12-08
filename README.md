@@ -1,113 +1,204 @@
-# 🚲 Seoul Bike Sharing Demand – Exploratory Data Analysis
+# 📊 Seoul Bike Sharing – Exploratory Data Analysis (EDA)
 
-## 📌 Project Overview
-This project focuses on **Exploratory Data Analysis (EDA)** of the **Seoul Bike Sharing Demand** dataset obtained from Kaggle.  
-The main objective is to understand how **weather conditions, time-based features, and environmental factors** influence bike rental demand.
+This project performs an in-depth exploratory data analysis (EDA) on the **Seoul Bike Sharing Dataset** to understand how environmental and temporal factors influence rental demand.
 
-Through **correlation analysis, heatmaps, and multiple visualizations**, we identify key patterns that affect the total number of bike rentals.
+The notebook includes multiple visualizations, each uncovering patterns that help optimize bike availability, pricing, and operational planning.
 
 ---
 
-## 📂 Dataset Information
-- **Source:** Kaggle – Seoul Bike Sharing Demand  
-- **Target Variable:** `Rented Bike Count`  
-- **Data Type:** Time-series + Weather data  
-- **Time Period:** Hourly data across multiple dates  
+# 📈 Visualizations & Insights (Graph-by-Graph Analysis)
 
-### Key Features
-- Temperature (°C)  
-- Dew Point Temperature (°C)  
-- Humidity (%)  
-- Wind Speed (m/s)  
-- Visibility (10m)  
-- Solar Radiation  
-- Rainfall (mm)  
-- Snowfall (cm)  
-- Hour  
-- Date  
-- Seasons & Holidays  
+Below is a detailed explanation of **every graph** plotted in the IPYNB notebook.
 
 ---
 
-## 🔍 Exploratory Data Analysis (EDA)
+## 1️⃣ Bike Rentals vs Temperature (Bar Plot)
 
-The EDA process includes:
-- Data cleaning and formatting  
-- Feature understanding  
-- Correlation analysis  
-- Heatmap visualization  
-- Trend analysis using line and bar plots  
+**Code:**  
+`plt.bar(df['Temperature(°C)'], df['Rented Bike Count'])`
 
----
+### 🔍 Insight:
+- Rentals increase sharply between **20°C–30°C**.
+- Low temperatures → fewer rentals.
 
-## 📊 Key Insights & Findings
-
-### 1️⃣ Correlation & Heatmap Analysis
-- **Temperature (°C)** has a strong positive correlation with total bike rentals.  
-- **Dew Point Temperature (°C)** also shows a positive relationship with rentals, indicating higher usage during comfortable weather.  
-- **Humidity (%)** is negatively correlated, meaning higher humidity reduces bike usage.  
-- **Rainfall and Snowfall** have a negative impact on bike demand.  
-- **Visibility and Solar Radiation** show a mild positive influence on rentals.  
-
-✅ The heatmap clearly highlights which features most strongly influence bike rental demand.
+### 💡 Implication:
+- Increase bike supply during warm days.
+- Use dynamic pricing during high-demand weather.
 
 ---
 
-### 2️⃣ Total Bike Rentals vs Temperature
-- Bike rentals increase consistently with rising temperature.  
-- Very low temperatures result in minimal rentals.  
-- Moderate to warm temperatures are ideal for high bike usage.  
+## 2️⃣ Bike Rentals per Hour (Bar Plot)
 
-📈 **Insight:** Weather comfort plays a crucial role in bike-sharing demand.
+**Code:**  
+`plt.bar(df['Hour'], df['Rented Bike Count'])`
 
----
+### 🔍 Insight:
+- Low demand from **0:00–10:00**.
+- Peak demand from **10:00–20:00**.
 
-### 3️⃣ Total Bike Rentals vs Dew Point Temperature (°C)
-- Higher dew point temperatures (indicating moist but warm air) correlate with increased rentals.  
-- Extremely low dew point values correspond with fewer rentals.  
-
-📌 **Insight:** Dew point temperature is an overlooked but meaningful indicator of rental demand.
+### 💡 Implication:
+- Provide morning discounts.
+- Ensure maximum bike availability during peak hours.
 
 ---
 
-### 4️⃣ Total Bike Rentals per Hour
-- A clear daily usage pattern is observed.  
-- **Peak demand hours:**
-  - Morning: **7–9 AM** (office commute)
-  - Evening: **5–8 PM** (return commute)
-- Lowest demand occurs during late night and early dawn hours.
+## 3️⃣ Bike Rentals per Date (Bar Plot)
 
-⏰ **Insight:** Bike rentals are heavily influenced by working hours and commuting patterns.
+**Code:**  
+`plt.bar(df['Date'], df['Rented Bike Count'])`
 
----
+### 🔍 Insight:
+- Daily rentals fluctuate based on weather, holidays, and seasonal conditions.
 
-### 5️⃣ Total Bike Rentals per Date
-- Bike rentals vary seasonally across different dates.  
-- Higher rentals occur during warmer months.  
-- Lower demand is observed during winter and adverse weather periods.
-
-📆 **Insight:** Bike usage follows strong seasonal trends.
+### 💡 Implication:
+- Incorporate seasonal/weather factors in prediction models.
 
 ---
 
-## 🛠️ Technologies Used
-- Python  
-- Pandas  
-- NumPy  
-- Matplotlib  
-- Seaborn  
-- Jupyter Notebook  
+## 4️⃣ Rentals vs Dew Point Temperature (Bar Plot)
+
+**Code:**  
+`plt.bar(df['Dew point temperature(°C)'], df['Rented Bike Count'])`
+
+### 🔍 Insight:
+- High rentals for dew point between **–10°C and 20°C**.
+- Very low dew points → discomfort → less demand.
+
+### 💡 Implication:
+- Dew point should be included in demand forecasting.
 
 ---
 
-## 📈 Conclusion
-- Weather variables, especially **Temperature and Dew Point Temperature**, have a significant impact on bike rental demand.  
-- Time-based features such as **Hour and Date** reveal strong commuting and seasonal patterns.  
-- Exploratory Data Analysis and correlation techniques provide valuable insights before building predictive models.
+## 5️⃣ Dew Point vs Temperature (Line Plot)
+
+**Code:**  
+`plt.plot(df['Dew point temperature(°C)'], df['Temperature(°C)'])`
+
+### 🔍 Insight:
+- Shows expected relationship between dew point and temperature.
+
+### 💡 Implication:
+- Helps multivariate modeling of rider comfort.
 
 ---
 
-## ✅ Future Scope
-- Feature engineering for improved prediction  
-- Machine learning and regression modeling  
-- Time-series forecasting for bike demand
+## 6️⃣ Holiday vs Non-Holiday Rentals (Box Plot)
+
+**Code:**  
+`sns.boxplot(x=df['Holiday'], y=df['Rented Bike Count'])`
+
+### 🔍 Insight:
+- Rentals are **higher on non-holidays**.
+- Holiday rentals show lower variation.
+
+### 💡 Implication:
+- Offer holiday-exclusive discounts or passes.
+
+---
+
+## 7️⃣ Holiday Rental Split (Pie Chart)
+
+**Code:**  
+`df.groupby("Holiday")["Rented Bike Count"].sum().plot(kind='pie')`
+
+### 🔍 Insight:
+- Non-holidays contribute the majority of rentals.
+
+### 💡 Implication:
+- Focus promotions on regular weekdays.
+
+---
+
+## 8️⃣ Rentals by Season (Box Plot)
+
+**Code:**  
+`sns.boxplot(x=df['Seasons'], y=df['Rented Bike Count'])`
+
+### 🔍 Insight:
+- Highest rentals: **Summer & Fall**  
+- Lowest rentals: **Winter**
+
+### 💡 Implication:
+- Increase fleet capacity during high-demand seasons.
+- Prepare winter-ready bikes for cold months.
+
+---
+
+## 9️⃣ Season Contribution (Pie Chart)
+
+**Code:**  
+`df.groupby("Seasons")["Rented Bike Count"].sum().plot(kind='pie')`
+
+### 🔍 Insight:
+- Summer and Autumn dominate rental share.
+
+---
+
+## 🔟 Snowfall vs Rentals (Scatter Plot)
+
+**Code:**  
+`sns.scatterplot(x='Snowfall (cm)', y='Rented Bike Count')`
+
+### 🔍 Insight:
+- Even small snowfall drastically reduces rentals.
+
+### 💡 Implication:
+- Promote winter gear or suspend service during heavy snowfall.
+
+---
+
+## 1️⃣1️⃣ Rainfall vs Rentals (Scatter Plot)
+
+**Code:**  
+`sns.scatterplot(x='Rainfall(mm)', y='Rented Bike Count')`
+
+### 🔍 Insight:
+- Rainfall → steady drop in rentals.
+
+### 💡 Implication:
+- Offer raincoats/umbrellas or rainy-day discounts.
+
+---
+
+## 1️⃣2️⃣ Visibility vs Rentals (Scatter Plot)
+
+**Code:**  
+`sns.scatterplot(x='Visibility (10m)', y='Rented Bike Count')`
+
+### 🔍 Insight:
+- Low visibility → fewer rentals due to safety concerns.
+
+### 💡 Implication:
+- Provide visibility-enhancing equipment (lights, reflectors).
+
+---
+
+## 1️⃣3️⃣ Humidity vs Rentals (Scatter Plot)
+
+**Code:**  
+`sns.scatterplot(x='Humidity(%)', y='Rented Bike Count')`
+
+### 🔍 Insight:
+- Optimal rental range: **20%–80% humidity**.
+- Extremely high humidity → drop in rentals.
+
+### 💡 Implication:
+- Include humidity in demand prediction models.
+
+---
+
+# 🧠 Summary of All Findings
+
+- Weather heavily impacts rental patterns.
+- Ideal riding conditions lead to significant demand increases.
+- Time of day and seasonality show strong behavioral trends.
+- Extreme weather (snow, rain, low visibility) discourages bike usage.
+
+---
+
+# 📁 Notebook
+
+All analysis and visualizations are in:  
+`seoul_bike_sharing_eda.ipynb`
+
+---
